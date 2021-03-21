@@ -1,0 +1,70 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		title comment
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+		link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+	body(style='margin-top: 60px')
+		nav.navbar.navbar-default.navbar-fixed-top
+			.container-fluid
+				.navbar-header
+					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a.navbar-brand(href='main.html') UB Cinema
+				#bs-example-navbar-collapse-1.collapse.navbar-collapse
+					ul.nav.navbar-nav
+						li
+							a(href='buywelcome') Buy A Ticket
+						li.active
+							a(href='comment')
+								| Movie Review
+								span.sr-only (current)
+						li
+							a(href='history') Purchase History
+					ul.nav.navbar-nav.navbar-right
+						li
+							a(href='logout') Logout
+		.center
+			form#cmform(action='comment_submit', method='post')
+				span Film Name: 
+				select#fname.form-control(name='cmfilm')
+					each film in films
+						option(value=film.filmid)=film.filmname
+				br
+				br
+				.submittButtonWrapper
+					textarea.center(placeholder='Please input comment here', rows='20', cols='80', name='cm', required='')
+			br
+			.submittButtonWrapper
+				button.btn.btn-sm.btn-primary(type='button', style='margin-right:8px', onclick='cmview()') View comment
+				button.btn.btn-sm.btn-primary(type='submit', form='cmform') Submit comment
+			div(id='cmrecord')
+	script.
+		function cmview(){
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+		} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		var mesgs = document.getElementById("cmrecord");
+		mesgs.innerHTML = xmlhttp.responseText;
+		}
+		}
+		var fid = document.getElementById("fname");
+		var fidval = document.getElementById("fname").value;
+		var fname = document.getElementById("fname");
+		var fnametext = fname.options[fname.selectedIndex].text;
+		xmlhttp.open("GET", "comment_retrieve?fname="+fnametext+"&fid="+fidval, true);
+		console.log("comment_retrieve?fname="+fnametext+"&fid="+fidval);
+		xmlhttp.send();
+		} 

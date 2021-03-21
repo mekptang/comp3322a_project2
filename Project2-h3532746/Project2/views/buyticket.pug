@@ -1,0 +1,49 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		title buyticket
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+		link(rel='stylesheet', type='text/css', href='stylesheets/style.css')
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+	body
+		.con
+			.bx
+				.formWrapper_seatplantry
+					h1 Cart
+					table#ticketinfo
+						tbody
+							tr
+								td Cinema:
+								td UB
+							tr
+								td House:
+								td="House "+broadcast.houseid
+							tr
+								td Film:
+								td=film.filmname
+							tr
+								td Category:
+								td=film.category
+							tr
+								td Show Time:
+								td=broadcast.date+" ("+broadcast.day+") "+broadcast.time
+					form(method='get', action='confirm')
+						-var item = 0
+						each valued in seatnum
+							-item = item + 1
+							p=valued+":"
+							input(type='hidden', name='price[]', value=valued)
+							select.form-control.comment_button(name='price[]')
+								option(value='Adult($75)') Adult($75)
+								option(value='Student/Senior($50)') Student/Senior($50)
+							br
+						input(type='hidden' name='item' value=item)
+						br
+						.submittButtonWrapper
+							button#submit_sp.btn.btn-primary(type='submit', name='broadcast', value=broadcast.broadcastid) Confirm
+					br
+					.submittButtonWrapper
+						input#submit_sp.btn.btn-primary(type='button', value='Back', onclick="location.href='buywelcome'")

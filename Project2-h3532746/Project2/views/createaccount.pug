@@ -1,0 +1,49 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title Create Account
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+    link(rel='stylesheet', type='text/css', href=href='/stylesheets/style.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+  body(style='margin: 0; padding: 0;')
+    .formWrapper
+      form(method='POST', action='/create')
+        h1 Welcome to UB Cinema
+        .form-group
+          label(for='username') Username
+          input#new_username.form-control(name='username', type='text', aria-describedby='emailHelp', placeholder='Desired Username', pattern='^[A-Za-z0-9]+', minlength='3', required='')
+        .form-group
+          label(for='password') Password
+          input#new_password.form-control(name='password', type='password', placeholder='Your Pasword', pattern='^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$', minlength='6', maxlength='15', required='')
+        button#signup.btn.btn-sm.btn-primary(type='submit') Sign Up
+        button.btn.btn-sm.btn-primary(type='button', onclick="location.href='/index.html'", style='margin-left: 10px;') Backs
+    script.
+      document.addEventListener("DOMContentLoaded", function () {
+      var name = document.getElementById("new_username");
+      var password = document.getElementById("new_password");
+      name.setCustomValidity("Please do not leave the fields empty");
+      password.setCustomValidity("Please do not leave the fields empty");
+      $('#new_username').on({
+      keyup: function(e) {
+      e.target.setCustomValidity("");
+      if (e.target.validity.valueMissing) {
+      e.target.setCustomValidity("Please do not leave the fields empty");
+      } else if (e.target.validity.tooShort) {
+      e.target.setCustomValidity("Username must be longer than 3 characters");
+      } else if (e.target.validity.patternMismatch) {
+      e.target.setCustomValidity("Username can only consist of characters and numbers");
+      }
+      }
+      });
+      $('#new_password').on({
+      keyup: function(e) {
+      e.target.setCustomValidity("");
+      if (!e.target.validity.valid) {
+      e.target.setCustomValidity("The length of the password must be between 6 to 15 characters and it must consist of only alphanumerical characters with at least one alphabet and one numerical character");
+      }
+      }
+      });
+      })

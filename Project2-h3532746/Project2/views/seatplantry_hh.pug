@@ -1,0 +1,52 @@
+extend seatplantry_h
+
+block content
+	table#ticketinfo
+		tbody
+			tr
+				td Cinema:
+				td UB
+			tr
+				td House:
+				td="House "+broadcast.houseid
+			tr
+				td Film:
+				td=film.filmname
+			tr
+				td Category:
+				td=film.category
+			tr
+				td Show Time:
+				td=broadcast.date+" ("+broadcast.day+") "+broadcast.time
+	form(method='get', action='buyticket')
+		table#seatinfo
+			tbody
+				-for(var i = broadcast.houserow; i > 0; i--)
+					-var ch = String.fromCharCode(64+i);
+					tr
+						-for(var j = 1; j <= broadcast.housecol; j++){
+							-var count;
+							-for each(var tk in ticket)
+								-if(tk.seatno == ch+j)
+									-count = count + 1;
+							-if(count==0)
+								td(class='seat')
+								input(type='checkbox', name='seatnum[]', value=ch+j)
+								span(class='seatWrapper')
+									span(class='seatNo')=ch+j
+							-if(count > 0)
+								td(class='seat sold')
+								input(type='checkbox', name='seatnum[]', value=ch+j, disabled='')
+								span(class='seatWrapper')
+									span(class='seatNo')=ch+j
+										br
+										span(class='soldText')='Sold'
+				tr
+					td(id='screen', colspan=broadcast.housecol)='SCREEN'
+			input(type='hidden', name='broadcast', value=broadcast.broadcastid)
+			br
+			.submittButtonWrapper
+				input#submit_sp.btn.btn-primary(type='submit', value='Submit')
+			br
+			.submittButtonWrapper
+				input#submit_sp.btn.btn-primary(type='button', value='Cancel', onclick="location.href='buywelcome'")

@@ -1,0 +1,77 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		title seatplantry
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+		link(rel='stylesheet', type='text/css', href='stylesheets/style.css')
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+	body
+		.con
+			.bx
+				.formWrapper_seatplantry
+					h1 Ticketing
+					table#ticketinfo
+						tbody
+							tr
+								td Cinema:
+								td UB
+							tr
+								td House:
+								td="House "+broadcast.houseid
+							tr
+								td Film:
+								td=film.filmname
+							tr
+								td Category:
+								td=film.category
+							tr
+								td Show Time:
+								td=broadcast.date+" ("+broadcast.day+") "+broadcast.time
+					form(method='get', action='buyticket')
+						table#seatinfo
+							tbody
+								-for(var i = broadcast.houserow; i > 0; i--)
+									-var ch = String.fromCharCode(64+i);
+									tr
+										-for(var j = 1; j <= broadcast.housecol; j++)
+											-var count = 0
+											each tk in ticket
+												-if(tk.seatno == ch+j)
+													-count = count + 1
+											if count==0
+												td(class='seat')
+													input(type='checkbox', name='seatnum[]', value=ch+j)
+													span(class='seatWrapper')
+														span(class='seatNo')=ch+j
+											if count > 0
+												td(class='seat sold')
+													input(type='checkbox', name='seatnum[]', value=ch+j, disabled='')
+													span(class='seatWrapper')
+														span(class='seatNo')=ch+j
+															br
+															span(class='soldText')='Sold'
+								tr
+									td(id='screen', colspan=broadcast.housecol)='SCREEN'
+							input(type='hidden', name='broadcast', value=broadcast.broadcastid)
+							br
+							.submittButtonWrapper
+								input#submit_sp.btn.btn-primary(type='submit', value='Submit')
+							br
+							.submittButtonWrapper
+								input#submit_sp.btn.btn-primary(type='button', value='Cancel', onclick="location.href='buywelcome'")
+	script.
+		$(document).ready(function(){
+		$('.seat').click(function(e){
+		if(!$(this).closest('td').hasClass('sold')){
+		$(this).closest('td').toggleClass('seat-border');
+		if($(this).closest('td').find('input').attr('checked')){
+		$(this).closest('td').find('input').removeAttr('checked');
+		}else{
+		$(this).closest('td').find('input').attr('checked', true);
+		}
+		}
+		});
+		});

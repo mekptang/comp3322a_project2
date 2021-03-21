@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title UB Cinema Login
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+    link(rel='stylesheet', type='text/css', href=href='/stylesheets/style.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+  body
+    .formWrapper
+      h1 UB CINEMA
+      form(method='POST', action='/verifyLogin')
+        .form-group
+          label(for='username') Username
+          input#username.form-control(name='username', type='text', aria-describedby='emailHelp', placeholder='Username', required='')
+          // <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        .form-group
+          label(for='password') Password
+          input#password.form-control(name='password', type='password', placeholder='Password', required='')
+        button#login.btn.btn-sm.btn-primary(type='submit') SUBMIT
+        button.btn.btn-sm.btn-link(type='button', onclick="location.href='createaccount.html'") Create an account
+    script.
+      document.addEventListener("DOMContentLoaded", function () {
+      var name = document.getElementById("username");
+      var password = document.getElementById("password");
+      name.setCustomValidity("Please do not leave the fields empty");
+      password.setCustomValidity("Please do not leave the fields empty");
+      $('#username').on({
+      keyup: function(e) {
+      e.target.setCustomValidity("");
+      if (e.target.validity.valueMissing) {
+      e.target.setCustomValidity("Please do not leave the fields empty");
+      }
+      }
+      });
+      $('#password').on({
+      keyup: function(e) {
+      e.target.setCustomValidity("");
+      if (e.target.validity.valueMissing) {
+      e.target.setCustomValidity("Please do not leave the fields empty");
+      }
+      }
+      });
+      });
+    .box
